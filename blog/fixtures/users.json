@@ -1,0 +1,21 @@
+[
+  { "fields" : {
+				"date_joined" : "2011-11-04 22:03:06",
+        "email" : "admin@blog.com",
+        "first_name" : "",
+        "groups" : [  ],
+        "idxf_email_l_iexact" : "admin@blog.com",
+        "idxf_username_l_iexact" : "test_admin",
+        "is_active" : true,
+        "is_staff" : true,
+        "is_superuser" : true,
+        "last_login" : "2011-11-04 22:03:06",
+        "last_name" : "",
+        "password" : "sha1$b3b72$8c1db200097323a82e3df05f7d82812ea277d662",
+        "user_permissions" : [  ],
+        "username" : "test_admin"
+      },
+    "model" : "auth.user",
+    "pk" : 31
+  }
+]
