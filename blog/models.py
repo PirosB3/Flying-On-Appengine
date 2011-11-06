@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.core.exceptions import ValidationError
 
 STATUS_CHOICES = (
     ('P', 'Published'),
@@ -18,9 +19,13 @@ class Post(models.Model):
   
   @models.permalink
   def get_absolute_url(self):
-    return ('blog_post_show', [str(self.slug)])
+    return ('blog_posts_show', [str(self.slug)])
   
   def save(self, *args, **kwargs):
+    # validate status
+    if self.status not in [x[0] for x in STATUS_CHOICES]:
+      raise ValidationError('Invalid status')
+    # builds stug if not existing
     if not self.slug:
       self.slug = slugify(self.title)
     super(Post, self).save(*args, **kwargs)
