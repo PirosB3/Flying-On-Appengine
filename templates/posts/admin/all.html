@@ -1,0 +1,28 @@
+{% extends "skeleton.html" %}
+{% block title %}Manage Posts{% endblock %}
+{% block main %}
+	<h3>Manage Posts</h3>
+	{% if posts %}
+		<table class="zebra-striped">
+			<tr>
+				<th>Title</th>
+				<th>Date Created</th>
+				<th>Author</th>
+				<th>Status</th>
+				<th>Options</th>
+			</tr>
+			{% for post in posts %}
+				<tr>
+					<td>{{ post.title }}</td>
+					<td>{{ post.date_created|date }}</td>
+					<td>{{ post.author.username }}</td>
+					<td>{{ post.get_status_display }}</td>
+					<td><a class="action-edit" href="#">Edit</a> | <a class="action-delete" href="#">Delete</a></td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% else %}
+		<center><span class="empty label notice">Sorry man, no posts up till now</span></center>
+	{% endif %}
+	
+{% endblock %}

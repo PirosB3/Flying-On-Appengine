@@ -1,0 +1,13 @@
+{% extends "skeleton.html" %}
+{% block title %}
+	Register
+{% endblock %}
+
+{% block main %}
+<h3>Create new user</h3>
+<form method="post">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<p><input type="submit" value="Create"></p>
+</form>
+{% endblock %}

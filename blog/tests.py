@@ -30,3 +30,9 @@ class TestBlogUrls(TestCase):
   
   def test_permalink(self):
     self.assertEqual(self.post.get_absolute_url(), '/posts/show/%s' % self.post.slug)
+    
+  def test_not_published(self):
+    self.post.status = 'D'
+    self.post.save()
+    response = Client().get(self.post.get_absolute_url())
+    self.assertEqual(response.status_code, 403)
