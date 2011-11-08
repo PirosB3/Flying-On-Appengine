@@ -1,9 +1,15 @@
 from django.conf.urls.defaults import *
 
+import blog
+
+from django.contrib import admin
+admin.autodiscover()
+
 handler500 = 'djangotoolbox.errorviews.server_error'
 
 urlpatterns = patterns('',
-    ('^_ah/warmup$', 'djangoappengine.views.warmup'),
-    ('^$', 'django.views.generic.simple.direct_to_template',
-     {'template': 'home.html'}),
+    url('^_ah/warmup$', 'djangoappengine.views.warmup'),
+    url(r'^admin/', include(admin.site.urls)),
+    url('^posts/', include('blog.urls')),
+    url('^$', 'django.views.generic.simple.redirect_to', {'url' : '/posts/'})
 )

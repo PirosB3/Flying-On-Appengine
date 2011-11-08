@@ -1,0 +1,23 @@
+{% extends "skeleton.html" %}
+{% block title %}
+	Viewing all posts
+{% endblock %}
+
+{% block main %}
+	{% if posts %}
+		<ul id="posts" class="row">
+		{% for post in posts %}
+			<li id="post-{{ post.id }}" class="well span12 columns offset1">
+				<div class="post-title column">
+					<h2><a href="{% url blog_posts_show post.slug %}">{{ post.title }}</a></h2>
+				</div>
+				<div class="post-content">
+					{{ post.body }}
+				</div>
+			</li>
+		{% endfor %}
+		</ul>
+	{% else %}
+		<center><span class="empty label notice">Sorry man, no posts up till now</span></center>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "skeleton.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block main %}
+	<div class="row">
+		<div class="post-single span12 columns offset1">
+			<h1 class="post-title">{{ post.title }}</h1>
+			<div class="post-body">
+				{{ post.body }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -3,6 +3,7 @@ from blog.models import *
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.core.exceptions import ValidationError
+from django.test.client import Client
 
 # Models
 class TestPost(TestCase):
@@ -21,7 +22,11 @@ class TestPost(TestCase):
     self.default_post.status = 'Z'
     with self.assertRaises(ValidationError):
       self.default_post.save()
-   
+      
+class TestBlogUrls(TestCase):
+  fixtures = ['users.json', 'posts.json']
+  def setUp(self):
+    self.post = Post.objects.get(pk=33)
+  
   def test_permalink(self):
-    self.default_post.save()
-    self.assertEqual(self.default_post.get_absolute_url(), '/posts/show/%s' % self.default_post.slug)
+    self.assertEqual(self.post.get_absolute_url(), '/posts/show/%s' % self.post.slug)
