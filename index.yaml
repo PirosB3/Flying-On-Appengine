@@ -25,3 +25,9 @@ indexes:
   properties:
   - name: __key__
     direction: desc
+
+- kind: blog_post
+  properties:
+  - name: status
+  - name: date_created
+    direction: desc

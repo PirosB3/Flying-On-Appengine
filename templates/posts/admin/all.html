@@ -17,7 +17,7 @@
 					<td>{{ post.date_created|date }}</td>
 					<td>{{ post.author.username }}</td>
 					<td>{{ post.get_status_display }}</td>
-					<td><a class="action-edit" href="#">Edit</a> | <a class="action-delete" href="#">Delete</a></td>
+					<td><a class="action-edit" href="{% url blog_posts_edit_admin post.slug %}">Edit</a> | <a class="action-delete" href="{% url blog_posts_delete_admin post.slug %}">Delete</a></td>
 				</tr>
 			{% endfor %}
 		</table>

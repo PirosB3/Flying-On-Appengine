@@ -24,7 +24,8 @@ class TestPost(TestCase):
     self.default_post.status = 'Z'
     with self.assertRaises(ValidationError):
       self.default_post.save()
-      
+
+# Urls    
 class TestBlogUrls(TestCase):
   fixtures = ['users.json', 'posts.json']
   def setUp(self):
@@ -40,18 +41,29 @@ class TestBlogUrls(TestCase):
     self.post.save()
     response = Client().get(self.post.get_absolute_url())
     self.assertEqual(response.status_code, 403)
-    
+
+# Functional  
 class TestWorkflow(TestCase):
-  fixtures = ['users.json']
+  fixtures = ['users.json', 'posts.json']
   
   def setUp(self):
     self.client = Client()
     self.client.login(username="test_admin", password="test")
+    self.post = Post.objects.get(pk=33)
     
   def test_admin_page(self):
     response = self.client.get(reverse('blog_posts_all_admin'))
     self.assertEqual(response.status_code, 200)
     
-  def test_admin_create_post(self):
-    self.client.post(reverse('blog_posts_create_admin'), {'title' : 'My post', 'status' : 'P', 'body' : 'lorem ipsum..'})
-    self.assertEqual(Post.objects.get(title='My post').body, 'lorem ipsum..')
+  def test_admin_edit_published_post(self):
+    response = self.client.post(reverse('blog_posts_edit_admin', args=[self.post.slug]), {'title' : 'just changed you!', 'body' : self.post.body, 'status' : self.post.status })
+    self.assertEqual(Post.objects.get(title='just changed you!').pk, 33)
+    
+  def test_delete_without_confirm(self):
+    self.client.post(reverse('blog_posts_delete_admin', args=[self.post.slug]))
+    self.assertTrue(Post.objects.get(pk=33))
+    
+  def test_delete_with_confirm(self):
+    self.client.post(reverse('blog_posts_delete_admin', args=[self.post.slug]), {'confirm' : 'true'})
+    with self.assertRaises(Post.DoesNotExist):
+      Post.objects.get(pk=33)

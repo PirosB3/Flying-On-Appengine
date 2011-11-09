@@ -1,0 +1,14 @@
+{% extends "skeleton.html" %}
+{% block title %}
+	Delete
+{% endblock %}
+{% block main %}
+  <form method="post" accept-charset="utf-8">
+	{% csrf_token %}
+  	<label>
+       <input type="checkbox" value="ok" name="confirm">
+	   Click this box if you are sure to delete the item
+	</label>
+  	<p><input type="submit" value="Continue &rarr;"></p>
+  </form>
+{% endblock %}

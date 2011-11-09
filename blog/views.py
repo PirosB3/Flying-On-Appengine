@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from models import *
 from forms import *
@@ -31,14 +31,18 @@ class PostsAll(ListView):
   template_name = 'posts/all.html'
   context_object_name = 'posts'
   paginate_by = 10
+  filter_published = True
   
   def get_queryset(self):
-    return Post.objects.filter(status='P')
+    if self.filter_published:
+      return Post.objects.filter(status='P')
+    return super(PostsAll, self).get_queryset()
 
-# ADMINISTRATED VIEWS
+# ADMIN VIEWS
 
 class PostsAllAdmin(LoginRequiredMixin, PostsAll):
   template_name = 'posts/admin/all.html'
+  filter_published = False
   
 class PostsCreateAdmin(LoginRequiredMixin, CreateView):
   form_class = CreatePostForm
@@ -50,3 +54,26 @@ class PostsCreateAdmin(LoginRequiredMixin, CreateView):
     post.save()
     return HttpResponseRedirect(reverse('blog_posts_all_admin'))
     
+class PostsEditAdmin(LoginRequiredMixin, UpdateView):
+  model = Post
+  form_class = CreatePostForm
+  template_name = 'posts/admin/create.html'
+  
+  def get_success_url(self):
+    if self.object.status == 'P':
+      return super(PostsEditAdmin, self).get_success_url()
+    return reverse('blog_posts_all_admin')
+    
+class PostsDeleteAdmin(LoginRequiredMixin, DeleteView):
+  model = Post
+  template_name = 'posts/admin/delete.html'
+  context_object_name = 'post'
+  
+  def post(self, request, slug):
+    """ensure box ticked on POST request"""
+    if 'confirm' not in request.POST.keys():
+      return HttpResponseRedirect(reverse('blog_posts_delete_admin', args=[slug]))
+    return super(PostsDeleteAdmin, self).post(request, slug)
+  
+  def get_success_url(self):
+    return reverse('blog_posts_all_admin')

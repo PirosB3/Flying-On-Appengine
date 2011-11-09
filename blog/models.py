@@ -13,9 +13,13 @@ class Post(models.Model):
   title = models.CharField(blank=False, max_length=50, help_text="Insert the title for your entry")
   slug = models.SlugField()
   date_created = models.DateTimeField(auto_now_add=True)
+  date_updated = models.DateTimeField(auto_now=True)
   author = models.ForeignKey(User)
   status = models.CharField(max_length= 1, choices= STATUS_CHOICES)
   body = models.TextField(blank=False, help_text="Insert the content for your entry")
+  
+  class Meta:
+    ordering = ['-date_created']
   
   @models.permalink
   def get_absolute_url(self):
