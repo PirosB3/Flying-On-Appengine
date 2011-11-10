@@ -24,5 +24,5 @@
 	{% else %}
 		<center><span class="empty label notice">Sorry man, no posts up till now</span></center>
 	{% endif %}
-	
+	<a href="{% url blog_posts_create_admin %}">Create new post</a>
 {% endblock %}

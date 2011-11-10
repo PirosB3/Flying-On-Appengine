@@ -5,18 +5,20 @@
 
 {% block main %}
 	{% if posts %}
-		<ul id="posts" class="row">
-		{% for post in posts %}
-			<li id="post-{{ post.id }}" class="well span12 columns offset1">
-				<div class="post-title column">
-					<h2><a href="{% url blog_posts_show post.slug %}">{{ post.title }}</a></h2>
-				</div>
-				<div class="post-content">
-					{{ post.body }}
-				</div>
-			</li>
-		{% endfor %}
-		</ul>
+		<h1>All posts</h1>
+		<div class="row post-list">
+			{% for post in posts %}
+				<article class="span12 columns offset1 post">
+					<h2 class="post-title"><a href="{{ post.get_absolute_url }}">{{ post.title}}</a></h2>
+					<div class="post-body">
+						{{ post.body }}
+					</div>
+					<div class="post-meta">
+						Posted by {{ post.author.username }} on {{ post.date_updated|date }}
+					</div>
+				</article>
+			{% endfor %}
+		</div>
 	{% else %}
 		<center><span class="empty label notice">Sorry man, no posts up till now</span></center>
 	{% endif %}

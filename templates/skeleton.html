@@ -14,18 +14,14 @@
     <!-- Le styles -->
 		<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
-
   </head>
-
   <body>
-
     <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="#">Flying On Appengine </a>
+          <a class="brand" href="/">Flying On Appengine </a>
           <ul class="nav">
             <li><a href="/">Home</a></li>
-						
 							{% if user.is_authenticated %}
 								<li class="nav secondary-nav" data-dropdown="dropdown" >
 									<a href="{% url blog_posts_all_admin %}" class="dropdown-toggle">Admin</a>

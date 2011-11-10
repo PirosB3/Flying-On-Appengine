@@ -21,6 +21,12 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: blog_comment
+  properties:
+  - name: post_id
+  - name: date_created
+    direction: desc
+
 - kind: blog_post
   properties:
   - name: __key__

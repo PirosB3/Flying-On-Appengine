@@ -1,0 +1,12 @@
+[
+   {
+      "pk":80,
+      "model":"blog.comment",
+      "fields":{
+         "body":"I'm a comment",
+         "date_created":"2011-11-09 13:41:15",
+         "post":31,
+         "email":"pirosb3@gmail.com"
+      }
+   }
+]

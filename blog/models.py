@@ -25,6 +25,9 @@ class Post(models.Model):
   def get_absolute_url(self):
     return ('blog_posts_show', [str(self.slug)])
   
+  def __unicode__(self):
+    return " - ".join([self.title, self.author.username])
+  
   def save(self, *args, **kwargs):
     # validate status
     if self.status not in [x[0] for x in STATUS_CHOICES]:
@@ -32,4 +35,20 @@ class Post(models.Model):
     # builds stug if not existing
     if not self.slug:
       self.slug = slugify(self.title)
-    super(Post, self).save(*args, **kwargs)
+    return super(Post, self).save(*args, **kwargs)
+    
+class Comment(models.Model):
+  
+  class Meta:
+    ordering = ['-date_created']
+  
+  def save(self, *args, **kwargs):
+    if self.post and self.post.status == 'P':
+      return super(Comment, self).save(*args, **kwargs)
+    return False
+  
+  post = models.ForeignKey(Post)
+  date_created = models.DateTimeField(auto_now_add=True)
+  email = models.EmailField(help_text="Insert your email address")
+  body = models.CharField(blank=False, max_length=100, help_text="Insert your comment here")
+  

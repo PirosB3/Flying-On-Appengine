@@ -1,4 +1,5 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from django.views.generic.edit import BaseCreateView, BaseDetailView
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from models import *
 from forms import *
@@ -7,24 +8,47 @@ from django.core.urlresolvers import reverse
 
 # PUBLIC VIEWS
 
-class PostsShow(DetailView):
+class PostsShow(BaseCreateView, BaseDetailView, TemplateView):
   model = Post
+  form_class = CreateCommentForm
   template_name = 'posts/show.html'
   context_object_name = 'post'
   published = None
+  
+  def get_context_data(self, **kwargs):
+    context_data = super(PostsShow, self).get_context_data(**kwargs)
+    if self.request.method == 'GET':
+      context_data['form'] = self.get_form_class()
+    if self.request.method == 'POST':
+      context_data['post'] = self.get_object()
+    return context_data
+  
+  def form_valid(self, form):
+    comment = form.save(commit=False)
+    comment.post = self.get_object()
+    comment.save()
+    return HttpResponseRedirect(self.get_object().get_absolute_url())
   
   def get_object(self):
     """ gets post object and sets it's published status """
     post = super(PostsShow, self).get_object()
     self.published = post.status == 'P'
     return post
+  
+  def deny_if_unpublished(self, response):
+    if not self.published:
+      return HttpResponseForbidden()
+    return response  
+  
+  def post(self, request, *args, **kwargs):
+    """ if post is not published, will return a 403 """
+    response = super(PostsShow, self).post(request, *args, **kwargs)
+    return self.deny_if_unpublished(response)
     
   def get(self, request, *args, **kwargs):
     """ if post is not published, will return a 403 """
     response = super(PostsShow, self).get(request, *args, **kwargs)
-    if not self.published:
-      return HttpResponseForbidden()
-    return response
+    return self.deny_if_unpublished(response)
 
 class PostsAll(ListView):
   model = Post
@@ -77,3 +101,18 @@ class PostsDeleteAdmin(LoginRequiredMixin, DeleteView):
   
   def get_success_url(self):
     return reverse('blog_posts_all_admin')
+    
+class CommentsDeleteAdmin(LoginRequiredMixin, DeleteView):
+  model = Comment
+  template_name = 'posts/admin/delete.html'
+  context_object_name = 'comment'
+  
+  def post(self, request, slug):
+    """ensure box ticked on POST request"""
+    if 'confirm' not in request.POST.keys():
+      return HttpResponseRedirect(reverse('blog_posts_delete_admin', args=[slug]))
+    return super(PostsDeleteAdmin, self).post(request, slug)
+  
+  def get_success_url(self):
+    return reverse('blog_posts_all_admin')
+  
