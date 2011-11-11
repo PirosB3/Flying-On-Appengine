@@ -3,12 +3,16 @@
 	Delete
 {% endblock %}
 {% block main %}
-  <form method="post" accept-charset="utf-8">
-	{% csrf_token %}
-  	<label>
-       <input type="checkbox" value="ok" name="confirm">
-	   Click this box if you are sure to delete the item
-	</label>
-  	<p><input type="submit" value="Continue &rarr;"></p>
-  </form>
+		<div class="row">
+			<div class="span6 offset4">
+				<form method="post">
+			      {% csrf_token %}
+			      <fieldset>
+								<strong>Check the box to confirm</strong>
+								<input type="checkbox" name="confirm" value="" id="confirm">
+			      </fieldset>
+			<input id="login-button-form" type="submit" value="Create" class="btn primary">
+			    </form>
+			</div>
+		</div>
 {% endblock %}

@@ -64,7 +64,7 @@ body {
   -webkit-box-shadow: 0px 0px 4px #272727; 
   -moz-box-shadow: 0px 0px 4px #272727; 
   box-shadow: 0px 0px 4px #272727;
-/*  padding: 10px 5px 0px 5px;*/
+  margin-bottom: 20px;
 }
 
 .post-list .post-title{
@@ -92,4 +92,8 @@ body {
 
 .comments{
   margin-bottom: 20px;
+}
+
+#id_body{
+  width: 500px;
 }

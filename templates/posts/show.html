@@ -4,7 +4,7 @@
 	<article class="post-single">
 		<h1 class="post-title">{{ post.title }}</h1>
 		<div class="post-content">
-			{{ post.body }}
+			{{ post.body|safe }}
 		</div>
 		<div class="post-meta">
 			Posted by {{ post.author.username }} on {{ post.date_updated|date }}
@@ -16,7 +16,7 @@
 		{% for comment in post.comment_set.all %}
 			<div class="row">
 				<blockquote class="span8 columns offset3">
-				  <p>{{ comment.body}}</p>
+				  <p>{{ comment.body }}</p>
 				  <small>{{ comment.email }}</small>
 				</blockquote>
 			</div>

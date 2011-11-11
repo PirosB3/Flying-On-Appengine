@@ -1,14 +1,51 @@
 {% extends "skeleton.html" %}
-
 {% block title %}
 	Login
 {% endblock %}
 
+{% block style %}
+	<style type="text/css" media="screen">
+		div.clearfix{
+			margin-bottom: 20px !important;
+		}
+	</style>
+{% endblock %}
+
+{% block inner-title %}<h2>Login</h2>{% endblock %}
+
 {% block main %}
-<h2>Login</h2>
-<form method="post">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<p><input type="submit" value="Login"></p>
-</form>
+<div class="row">
+<div class="span10 offset2">
+	{% if form.non_field_errors %}
+     <div class="alert-message error">
+             <p>{{ form.non_field_errors|striptags }}</p>
+     </div>
+     {% endif %}
+	<form method="post">
+      {% csrf_token %}
+      <fieldset>
+          <legend>Insert credentials to login</legend>
+          {% for field in form.visible_fields %}
+        	{% if forloop.first %}
+              {% for hidden in form.hidden_fields %}
+                 {{ hidden }}
+              {% endfor %}
+            {% endif %}
+            <div class="clearfix {% if field.errors %}error{% endif %}">
+	              {{ field.label_tag }}
+	              <div class="input">
+                      {{ field }}
+                      {% if field.errors %}
+                              <span class="help-inline">{{ field.errors|striptags }}</span>
+                      {% endif %}
+	              </div>
+            </div>
+		  {% endfor %}
+      <div class="secondary-action">
+              <input id="login-button-form" type="submit" value="Login" class="btn primary">
+      </div>
+      </fieldset>
+    </form>
+</div>
+</div>
 {% endblock %}

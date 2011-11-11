@@ -13,7 +13,7 @@
 			</tr>
 			{% for post in posts %}
 				<tr>
-					<td>{{ post.title }}</td>
+					<td><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
 					<td>{{ post.date_created|date }}</td>
 					<td>{{ post.author.username }}</td>
 					<td>{{ post.get_status_display }}</td>
