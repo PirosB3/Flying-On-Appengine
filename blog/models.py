@@ -2,22 +2,26 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.core.exceptions import ValidationError
+from django.db.models.signals import pre_delete, pre_save
 
+# Provides an easy way to reuse and extend Post statuses
 STATUS_CHOICES = (
     ('P', 'Published'),
     ('D', 'Draft'),
 )
 
-
 class Post(models.Model):
     """ An entry to the blog """
-    title = models.CharField(blank=False, max_length=50, help_text="Insert the title for your entry")
+    title = models.CharField(blank=False,
+      max_length=50,
+      help_text="Insert the title for your entry")
     slug = models.SlugField()
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User)
     status = models.CharField(max_length= 1, choices= STATUS_CHOICES)
-    body = models.TextField(blank=False, help_text="Insert the content for your entry")
+    body = models.TextField(blank=False,
+      help_text="Insert the content for your entry")
 
     class Meta:
         ordering = ['-date_created']
@@ -39,11 +43,11 @@ class Post(models.Model):
         return super(Post, self).save(*args, **kwargs)
 
 class Comment(models.Model):
-
     class Meta:
         ordering = ['-date_created']
 
     def save(self, *args, **kwargs):
+        # if the post is not published, a comment cannot be added
         if self.post and self.post.status == 'P':
             return super(Comment, self).save(*args, **kwargs)
         return False
@@ -51,4 +55,12 @@ class Comment(models.Model):
     post = models.ForeignKey(Post)
     date_created = models.DateTimeField(auto_now_add=True)
     email = models.EmailField(help_text="Insert your email address")
-    body = models.CharField(blank=False, max_length=100, help_text="Insert your comment here")
+    body = models.TextField(blank=False,
+      help_text="Insert your comment here")
+
+def delete_cascade(sender, **kwargs):
+    # Fix for cascade delete
+    instance = kwargs['instance']
+    instance.comment_set.all().delete()
+
+pre_delete.connect(delete_cascade, sender=Post)

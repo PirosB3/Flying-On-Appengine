@@ -1,8 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
-from views import PostsShow, PostsAll, PostsAllAdmin, PostsCreateAdmin, PostsEditAdmin, PostsDeleteAdmin, CommentsDeleteAdmin
+from views import PostsShow, PostsAll, PostsAllAdmin, PostsCreateAdmin, PostsEditAdmin, PostsDeleteAdmin
 
 urlpatterns = patterns('',
-  url(r'admin/comments/delete/(?P<id>[^\d]+)$', CommentsDeleteAdmin.as_view(), name="blog_comments_delete_admin"),
   url(r'admin/posts/delete/(?P<slug>[^\.]+)$', PostsDeleteAdmin.as_view(), name="blog_posts_delete_admin"),
   url(r'admin/posts/edit/(?P<slug>[^\.]+)$', PostsEditAdmin.as_view(), name="blog_posts_edit_admin"),
   url(r'admin/posts/create', PostsCreateAdmin.as_view(), name="blog_posts_create_admin"),

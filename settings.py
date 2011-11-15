@@ -54,3 +54,4 @@ ROOT_URLCONF = 'urls'
 
 LOGIN_REDIRECT_URL = '/posts/admin/'
 LOGOUT_REDIRECT_URL = '/'
+CACHE_BACKEND = 'memcached://?timeout=0'

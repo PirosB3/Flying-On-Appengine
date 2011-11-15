@@ -4,15 +4,13 @@
 {% endblock %}
 {% block main %}
 		<div class="row">
-			<div class="span6 offset4">
+			<div class="span10 offset2">
+				<center>Are you sure</center>
 				<form method="post">
 			      {% csrf_token %}
-			      <fieldset>
-								<strong>Check the box to confirm</strong>
-								<input type="checkbox" name="confirm" value="" id="confirm">
-			      </fieldset>
-			<input id="login-button-form" type="submit" value="Create" class="btn primary">
-			    </form>
+						<input type="hidden" name="confirm" value="true" id="confirm">
+						<input id="login-button-form" type="submit" value="Delete" class="btn primary">
+			  </form>
 			</div>
 		</div>
 {% endblock %}

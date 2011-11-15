@@ -95,5 +95,22 @@ body {
 }
 
 #id_body{
-  width: 500px;
+  height: 60px;
+}
+
+.comments-form form{
+  visibility: hidden;
+  margin-top: 50px;
+}
+
+.comments-form.invalid form{
+  visibility: visible;
+}
+
+.comments-form.invalid #comments-add-button{
+  visibility: hidden;
+}
+
+.comments{
+  margin-top: 20px;
 }

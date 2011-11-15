@@ -14,6 +14,7 @@
 {% block inner-title %}<h2>New Event</h2>{% endblock %}
 
 {% block main %}
+<div class="row">
 <div class="span10 offset2">
 	{% if form.non_field_errors %}
      <div class="alert-message error">
@@ -45,6 +46,7 @@
       </div>
       </fieldset>
     </form>
+</div>
 </div>
 {% endblock %}
 
