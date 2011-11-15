@@ -114,3 +114,11 @@ body {
 .comments{
   margin-top: 20px;
 }
+.comments-form form .btn.primary{
+  margin-right: 90px;  
+  float: right; 
+}
+
+.help-inline{
+    display: block;
+}

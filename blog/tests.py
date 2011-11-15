@@ -50,7 +50,10 @@ class TestComment(TestCase):
                                 post = self.post).save())
 
     def test_deleted_on_post_removal(self):
-        Comment(email='pirosb3@gmail.com', body="Nice post", post = self.post).save()
+        Comment(email='pirosb3@gmail.com',
+                body="Nice post",
+                post = self.post
+                ).save()
         self.assertEqual(len(Comment.objects.all()), 1)
         self.post.delete()
         self.assertEqual(len(Comment.objects.all()), 0)
@@ -108,8 +111,7 @@ class TestWorkflow(TestCase):
         self.assertTrue(Post.objects.get(pk=33))
 
     def test_delete_with_confirm(self):
-        self.client.post(reverse('blog_posts_delete_admin',
-          args=[self.post.slug]),
+        self.client.post(reverse('blog_posts_delete_admin', args=[self.post.slug]),
           {'confirm' : 'true'})
         with self.assertRaises(Post.DoesNotExist):
             Post.objects.get(pk=33)
