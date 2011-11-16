@@ -8,5 +8,4 @@ urlpatterns = patterns('',
     url(r'^accounts/logout', 'django.contrib.auth.views.logout'),
     url(r'^accounts/', 'django.views.generic.simple.redirect_to', {'url' : '/'}),
     url(r'^', include('blog.urls')),
-    url(r'^$', 'django.views.generic.simple.redirect_to', {'url' : '/posts/'})
 )
