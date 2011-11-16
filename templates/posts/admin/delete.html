@@ -4,13 +4,15 @@
 {% endblock %}
 {% block main %}
 		<div class="row">
-			<div class="span10 offset2">
-				<center>Are you sure</center>
-				<form method="post">
-			      {% csrf_token %}
-						<input type="hidden" name="confirm" value="true" id="confirm">
-						<input id="login-button-form" type="submit" value="Delete" class="btn primary">
-			  </form>
-			</div>
+			  <div class="span5 columns offset3 confirm-delete">
+			  	Click delete to confirm action
+			  </div>
+				<div class="span2">
+					<form method="post">
+				      {% csrf_token %}
+							<input type="hidden" name="confirm" value="true" id="confirm">
+							<input id="login-button-form" type="submit" value="Delete" class="btn primary">
+				  </form>
+				</div>
 		</div>
 {% endblock %}
