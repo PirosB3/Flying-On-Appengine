@@ -1,7 +1,7 @@
 Flying On Appengine
 ===================
 
-This project is a small blog web application built on Google AppEngine and Django with the help of django-nonrel(http://www.allbuttonspressed.com/projects/django-nonrel) in order to provide NoSQL support.
+This project is a small blog web application built on Google AppEngine and Django with the help of django-nonrel (http://www.allbuttonspressed.com/projects/django-nonrel) in order to provide NoSQL support.
 
 List of features
 ----------------
