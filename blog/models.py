@@ -45,7 +45,10 @@ class Post(models.Model):
 class Comment(models.Model):
     class Meta:
         ordering = ['-date_created']
-
+    
+    def __unicode__(self):
+        return " - ".join([self.email, self.post.title])
+    
     def save(self, *args, **kwargs):
         # if the post is not published, a comment cannot be added
         if self.post and self.post.status == 'P':
