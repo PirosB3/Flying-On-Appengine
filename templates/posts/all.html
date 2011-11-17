@@ -11,7 +11,7 @@
 				<article class="span12 columns offset1 post">
 					<h2 class="post-title"><a href="{{ post.get_absolute_url }}">{{ post.title}}</a></h2>
 					<div class="post-body">
-						{{ post.body|safe }}
+						{{ post.body|truncatewords:200|safe }}
 					</div>
 					<div class="post-meta">
 						Posted by {{ post.author.username }} on {{ post.date_updated|date }}
